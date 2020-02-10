@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.io.OutputStream;
 
 //import org.apache.commons.net.telnet.TelnetClient;
 
@@ -16,8 +17,8 @@ import java.net.SocketException;
 
 @SimpleObject(external = true)
 public class TelnetClient extends AndroidNonvisibleComponent {
-    public static final int VERSION = 1;//控件版本号
-    private static final String LOG_TAG = "TelnetClient";
+   // public static final int VERSION = 1;//控件版本号
+   // private static final String LOG_TAG = "TelnetClient";
    /* private ComponentContainer container;
     private Context context;
 	
