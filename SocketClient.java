@@ -61,19 +61,23 @@ public class SocketUtil extends AndroidNonvisibleComponent {
     public void GetMessage(String s){ EventDispatcher.dispatchEvent(this, "GetMessage", s); }
 	
     @SimpleFunction(description = "start")//打开通信端口
-    public void receiveData(int PORT){
-        
+    public void receiveData(int PORT)
+	{     
         Thread thread = new Thread()//等待客户端连接的进程
         {
             @Override
             public void run() { }
         };
         thread.start();
- }
-    
-public class Main {
+ 	}
+}
 
-    public static void main(String[] args) {
+
+public class Main 
+{
+
+    public static void main(String[] args)
+    {
         try {
             TelnetClient telnetClient = new TelnetClient("vt200");  //指明Telnet终端类型，否则会返回来的数据中文会乱码
             telnetClient.setDefaultTimeout(5000); //socket延迟时间：5000ms
@@ -83,28 +87,22 @@ public class Main {
             byte[] b = new byte[1024];
             int size;
             StringBuffer sBuffer = new StringBuffer(300);
-            while(true) {     //读取Server返回来的数据，直到读到登陆标识，这个时候认为可以输入用户名
+            while(true) //读取Server返回来的数据，直到读到登陆标识，这个时候认为可以输入用户名
+	    {    
                 size = inputStream.read(b);
-                if(-1 != size) {
+                if(-1 != size) 
+		{
                     sBuffer.append(new String(b,0,size));
-                    if(sBuffer.toString().trim().endsWith("login:")) {
-                        break;
-                    }
+                    if(sBuffer.toString().trim().endsWith("login:")) {break;}
                 }
             }
-            System.out.println(sBuffer.toString());
+		
+            /*System.out.println(sBuffer.toString());
             pStream.println("exit"); //写命令
-            pStream.flush(); //将命令发送到telnet Server
-            if(null != pStream) {
-                pStream.close();
-            }
-            telnetClient.disconnect();
-        } catch (SocketException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+            pStream.flush(); //将命令发送到telnet Server */
+		
+            if(null != pStream) {pStream.close();}telnetClient.disconnect();
+        } catch (SocketException e) {e.printStackTrace();} 
+	//catch (IOException e) {e.printStackTrace();}
     }
 }
