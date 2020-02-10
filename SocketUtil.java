@@ -41,7 +41,7 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.SocketException;
 import java.util.Enumeration;
-import java.net.TelnetClient
+import java.net.TelnetClient;
 
 import org.apache.commons.net.telnet.TelnetClient;
 
