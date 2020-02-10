@@ -3,6 +3,7 @@ package com.core;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.net.Socket;
 import java.net.SocketException;
 
 //import org.apache.commons.net.telnet.TelnetClient;
@@ -56,6 +57,7 @@ public class TelnetClient extends AndroidNonvisibleComponent {
 
     class ServerThread extends Thread
     {
+    	Socket socket; 
         public ServerThread(Socket socket){this.socket = socket; }	
 	    @Override
 	    public void run()
