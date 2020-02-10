@@ -7,19 +7,19 @@ import java.net.SocketException;
 
 import org.apache.commons.net.telnet.TelnetClient;
 
-@DesignerComponent(version = SocketUtil.VERSION,
+@DesignerComponent(version = TelnetClient.VERSION,
     description = "made in fan hao jie \n QQ:535607581",
     category = ComponentCategory.EXTENSION,
     nonVisible = true,
     iconName = "images/extension.png")
 
 @SimpleObject(external = true)
-public class SocketUtil extends AndroidNonvisibleComponent {
+public class TelnetClient extends AndroidNonvisibleComponent {
     public static final int VERSION = 1;//控件版本号
-    private static final String LOG_TAG = "SocketUtil";
+    private static final String LOG_TAG = "TelnetClient";
     private ComponentContainer container;
     private Context context;
-    private ServerSocket serverSocket = null;
+    //private ServerSocket serverSocket = null;
 	
     String ip;//系统返回IP地址
     int port;//系统返回端口
@@ -35,31 +35,13 @@ public class SocketUtil extends AndroidNonvisibleComponent {
         public void handleMessage(Message msg){ GetMessage(msg.obj.toString()); }
     };
 	
-    public SocketUtil(ComponentContainer container) 
+    public TelnetClient(ComponentContainer container) 
     {
         super(container.$form());
         this.container = container;
         context = (Context) container.$context();
     }
     
-    @SimpleFunction(description = "start")//软件向控件写回复信息
-    public void sendMessage(String s)
-    {
-	 k = s.length()/3;
-	 for(int j = 0; j<k ;j++){i[j] = Integer.parseInt(s.substring(j*3,(j+1)*3));}
-	 for(int j = 0; j<k+1 ;j++){bb[j+1] = (byte)i[j];} 
-	 //con=1;
-	 //new ServerThread2().start();
-    }
-    @SimpleFunction(description = "start")//断开客户端
-    public void Clientclose(){con = 2;}
-	
-    @SimpleFunction(description = "start")//关闭服务器
-    public void Serverclose(){try{serverSocket.close();}catch (IOException e) {}}
-	
-    @SimpleEvent//向软件输出信息
-    public void GetMessage(String s){ EventDispatcher.dispatchEvent(this, "GetMessage", s); }
-	
     @SimpleFunction(description = "start")//打开通信端口
     public void receiveData(int PORT)
 	{     
