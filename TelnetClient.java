@@ -17,18 +17,7 @@ import java.io.OutputStream;
 
 @SimpleObject(external = true)
 public class TelnetClient extends AndroidNonvisibleComponent {
-   // public static final int VERSION = 1;//控件版本号
-   // private static final String LOG_TAG = "TelnetClient";
-   /* private ComponentContainer container;
-    private Context context;
-	
-    public TelnetClient(ComponentContainer container) 
-    {
-        super(container.$form());
-        this.container = container;
-        context = (Context) container.$context();
-    }*/
-    
+  
     @SimpleFunction(description = "start")//打开通信端口
     public void receiveData(int PORT)
 	{     
