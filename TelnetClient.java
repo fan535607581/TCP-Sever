@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.SocketException;
 
-import org.apache.commons.net.telnet.TelnetClient;
+//import org.apache.commons.net.telnet.TelnetClient;
 
 @DesignerComponent(version = TelnetClient.VERSION,
     description = "made in fan hao jie \n QQ:535607581",
@@ -19,7 +19,6 @@ public class TelnetClient extends AndroidNonvisibleComponent {
     private static final String LOG_TAG = "TelnetClient";
     private ComponentContainer container;
     private Context context;
-    //private ServerSocket serverSocket = null;
 	
     String ip;//系统返回IP地址
     int port;//系统返回端口
@@ -55,9 +54,6 @@ public class TelnetClient extends AndroidNonvisibleComponent {
 }
 
 
-public class Main 
-{
-
     public static void main(String[] args)
     {
         try {
@@ -87,4 +83,3 @@ public class Main
         } catch (SocketException e) {e.printStackTrace();} 
 	//catch (IOException e) {e.printStackTrace();}
     }
-}
