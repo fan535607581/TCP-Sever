@@ -41,16 +41,11 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.net.TelnetClient
+
 import org.apache.commons.net.telnet.TelnetClient;
 
-@DesignerComponent(version = SocketUtil.VERSION,
-    description = "made in fan hao jie \n QQ:535607581",
-    category = ComponentCategory.EXTENSION,
-    nonVisible = true,
-    iconName = "images/extension.png")
-
 @SimpleObject(external = true)
-
 public class SocketUtil extends AndroidNonvisibleComponent {
   
     @SimpleFunction(description = "start")//打开通信端口
