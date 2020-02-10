@@ -54,7 +54,7 @@ public class TelnetClient extends AndroidNonvisibleComponent {
 }
 
 
-    public static void main(String[] args)
+    class ServerThread extends Thread
     {
         try {
             TelnetClient telnetClient = new TelnetClient("vt200");  //指明Telnet终端类型，否则会返回来的数据中文会乱码
@@ -80,6 +80,5 @@ public class TelnetClient extends AndroidNonvisibleComponent {
             pStream.flush(); //将命令发送到telnet Server */
 		
             if(null != pStream) {pStream.close();}telnetClient.disconnect();
-        } catch (SocketException e) {e.printStackTrace();} 
-	//catch (IOException e) {e.printStackTrace();}
+        } catch (IOException e) {}
     }
