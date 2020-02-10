@@ -1,4 +1,4 @@
-package com.core;
+package cn.roger.socketclient;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,29 +18,15 @@ import java.net.SocketException;
 public class TelnetClient extends AndroidNonvisibleComponent {
     public static final int VERSION = 1;//控件版本号
     private static final String LOG_TAG = "TelnetClient";
-    private ComponentContainer container;
+   /* private ComponentContainer container;
     private Context context;
-	
-    String ip;//系统返回IP地址
-    int port;//系统返回端口
-    int con = 0;//控制信号
-    byte[] bb = new byte[1000];//回复数据
-    int[] i = new int[1000];//回复原始数据
-    int k = 0;//回复数据的长度
-    int DK = 0;//外部设置的端口
-		
-    public Handler handler = new Handler()
-    {
-        @Override
-        public void handleMessage(Message msg){ GetMessage(msg.obj.toString()); }
-    };
 	
     public TelnetClient(ComponentContainer container) 
     {
         super(container.$form());
         this.container = container;
         context = (Context) container.$context();
-    }
+    }*/
     
     @SimpleFunction(description = "start")//打开通信端口
     public void receiveData(int PORT)
