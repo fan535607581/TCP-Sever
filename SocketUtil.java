@@ -159,7 +159,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 		URL url = null;
        	 	URLConnection urlconn = null;
        		BufferedReader br = null;
-         	try {
+         	
 			url = new URL("http://2017.ip138.com/ic.asp");//爬取的网站是百度搜索ip时排名第一的那个
            		urlconn = url.openConnection();
             		br = new BufferedReader(new InputStreamReader(urlconn.getInputStream()));
@@ -171,7 +171,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 				message_2.obj = buf;
 				handler.sendMessage(message_2);
 			}
-		}catch (IOException e){} 
+		
 	///////////////////////////////		
 	}
 	
