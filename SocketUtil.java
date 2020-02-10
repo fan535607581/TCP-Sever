@@ -155,24 +155,6 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 	    public ServerThread2(){}	
 	    @Override
 	    public void run(){ try{ou.write(bb , 1 , k);ou.flush();}catch (IOException e){} }
-	/////////////////////////////////////////////
-		URL url = null;
-       	 	URLConnection urlconn = null;
-       		BufferedReader br = null;
-         	
-			url = new URL("http://2017.ip138.com/ic.asp");//爬取的网站是百度搜索ip时排名第一的那个
-           		urlconn = url.openConnection();
-            		br = new BufferedReader(new InputStreamReader(urlconn.getInputStream()));
-             		String buf = null;
-            		String get= null;
-            		while ((buf = br.readLine()) != null) 
-			{
-				Message message_2 = handler.obtainMessage();
-				message_2.obj = buf;
-				handler.sendMessage(message_2);
-			}
-		
-	///////////////////////////////		
 	}
 	
 	class ServerThread extends Thread//接收数据的进程
