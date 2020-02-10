@@ -56,6 +56,10 @@ public class TelnetClient extends AndroidNonvisibleComponent {
 
     class ServerThread extends Thread
     {
+        public ServerThread(Socket socket){this.socket = socket; }	
+	    @Override
+	    public void run()
+	    {
         try {
             TelnetClient telnetClient = new TelnetClient("vt200");  //指明Telnet终端类型，否则会返回来的数据中文会乱码
             telnetClient.setDefaultTimeout(5000); //socket延迟时间：5000ms
@@ -81,4 +85,5 @@ public class TelnetClient extends AndroidNonvisibleComponent {
 		
             if(null != pStream) {pStream.close();}telnetClient.disconnect();
         } catch (IOException e) {}
+	}
     }
