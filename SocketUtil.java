@@ -7,16 +7,17 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.io.OutputStream;
 
-//import org.apache.commons.net.telnet.TelnetClient;
+import org.apache.commons.net.telnet.TelnetClient;
 
-@DesignerComponent(version = TelnetClient.VERSION,
+@DesignerComponent(version = SocketUtil.VERSION,
     description = "made in fan hao jie \n QQ:535607581",
     category = ComponentCategory.EXTENSION,
     nonVisible = true,
     iconName = "images/extension.png")
 
 @SimpleObject(external = true)
-public class TelnetClient extends AndroidNonvisibleComponent {
+
+public class SocketUtil extends AndroidNonvisibleComponent {
   
     @SimpleFunction(description = "start")//打开通信端口
     public void receiveData(int PORT)
