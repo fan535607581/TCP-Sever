@@ -1,4 +1,5 @@
 package cn.roger.socket;
+import org.apache.commons.net.telnet.TelnetClient;
 
 import com.google.appinventor.components.annotations.*;
 import com.google.appinventor.components.common.ComponentCategory;
@@ -45,6 +46,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.net.SocketException;
 
 @DesignerComponent(version = SocketUtil.VERSION,
     description = "made in fan hao jie \n QQ:535607581",
