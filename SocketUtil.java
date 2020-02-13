@@ -1,5 +1,4 @@
 package cn.roger.socket;
-//import org.apache.commons.net.telnet.TelnetClient;
 
 import com.google.appinventor.components.annotations.*;
 import com.google.appinventor.components.common.ComponentCategory;
@@ -61,7 +60,6 @@ public class SocketUtil extends AndroidNonvisibleComponent {
     private Context context;
     private ServerSocket serverSocket = null;
     OutputStream ou = null;//系统输出流
-    int KH = 0;
 	
     String ip;//系统返回IP地址
     int port;//系统返回端口
@@ -106,14 +104,27 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 	 k = s.length()/3;
 	 for(int j = 0; j<k ;j++){i[j] = Integer.parseInt(s.substring(j*3,(j+1)*3));}
 	 for(int j = 0; j<k+1 ;j++){bb[j+1] = (byte)i[j];} 
-	 //con=1;
 	 new ServerThread2().start();
     }
     @SimpleFunction(description = "start")//断开客户端
     public void Clientclose(){con = 2;}
 	
     @SimpleFunction(description = "start")//关闭服务器
-    public void Serverclose(){try{serverSocket.close();}catch (IOException e) {}}
+    public void Serverclose()
+    {
+	 Message message_2;
+	 try{
+	    serverSocket.close();
+	    message_2 = handler.obtainMessage();
+	    message_2.obj = "服务器已关闭";
+	    handler.sendMessage(message_2);
+	 }catch (IOException e) 
+	    {
+	    message_2 = handler.obtainMessage();
+	    message_2.obj = "服务器关闭失败";
+	    handler.sendMessage(message_2);        
+	    }
+    }
 	
     @SimpleEvent//向软件输出信息
     public void GetMessage(String s){ EventDispatcher.dispatchEvent(this, "GetMessage", s); }
@@ -129,7 +140,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 			serverSocket = new ServerSocket(DK);
 			getLocalIpAddress(serverSocket);
 			Message message_1 = handler.obtainMessage();
-			message_1.obj = "IP:" + ip + " PORT: " + port;
+			message_1.obj = "服务器已开启:" + ip + ":" + port;
 			handler.sendMessage(message_1);
 		}catch (IOException e) {}
 
@@ -139,7 +150,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
                     try {
                         socket = serverSocket.accept(); 
                         Message message_2 = handler.obtainMessage();
-                        message_2.obj = "连上了！"+socket.getInetAddress().getHostAddress();
+                        message_2.obj = "客户端连接："+socket.getInetAddress().getHostAddress();
                         handler.sendMessage(message_2);
                    	 } 
 		    catch (IOException e) {}
@@ -180,7 +191,14 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 				}
 				ou = socket.getOutputStream();
 			}
-			if(con == 2){try{ou.close();socket.close();}catch (IOException e) {}}
+			if(con == 2){
+				try{
+				ou.close();
+				socket.close();
+				message_2 = handler.obtainMessage();
+				message_2.obj ="客户端已断开"+socket;
+				handler.sendMessage(message_2);
+				}catch (IOException e) {}}
 			} catch (IOException e){}
                 }
             }
