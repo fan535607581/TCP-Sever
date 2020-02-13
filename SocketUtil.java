@@ -45,7 +45,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
-import commons.net.TelnetClient;
 
 @DesignerComponent(version = SocketUtil.VERSION,
     description = "made in fan hao jie \n QQ:535607581",
