@@ -1,5 +1,5 @@
 package cn.roger.socket;
-import org.apache.commons.net.telnet.TelnetClient;
+package org.apache.commons.net.telnet.TelnetClient;
 
 import com.google.appinventor.components.annotations.*;
 import com.google.appinventor.components.common.ComponentCategory;
