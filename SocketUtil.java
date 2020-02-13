@@ -1,5 +1,5 @@
-//package cn.roger.socket;
-package ModbusTCPServer;
+//package ModbusTCPServer;
+package ModbusTCP服务器;
 
 import com.google.appinventor.components.annotations.*;
 import com.google.appinventor.components.common.ComponentCategory;
