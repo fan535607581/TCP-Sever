@@ -13,13 +13,6 @@ import android.view.View;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.Drawable;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.Socket;
-import java.net.TelnetClient
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -43,11 +36,16 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import commons.net.URLConnection;
-
-import java.io.IOException;
+import java.net.URLConnection;
 import java.io.PrintStream;
-import java.net.SocketException;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.Socket;
+import commons.net.TelnetClient;
 
 @DesignerComponent(version = SocketUtil.VERSION,
     description = "made in fan hao jie \n QQ:535607581",
