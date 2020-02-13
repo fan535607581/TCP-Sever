@@ -142,7 +142,12 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 			Message message_1 = handler.obtainMessage();
 			message_1.obj = "服务器已开启:" + ip + ":" + port;
 			handler.sendMessage(message_1);
-		}catch (IOException e) {}
+		}catch (IOException e)
+		{
+			Message message_1 = handler.obtainMessage();
+			message_1.obj = "服务器开启失败，端口被占用";
+			handler.sendMessage(message_1);	
+		}
 
                 while (true)
 		{
