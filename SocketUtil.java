@@ -150,7 +150,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
                     try {
                         socket = serverSocket.accept(); 
                         Message message_2 = handler.obtainMessage();
-                        message_2.obj = "客户端连接："+socket.getInetAddress().getportAddress();
+                        message_2.obj = "客户端连接："+socket.getInetAddress().getHostAddress();
                         handler.sendMessage(message_2);
                    	 } 
 		    catch (IOException e) {}
@@ -196,7 +196,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 				ou.close();
 				socket.close();
 				message_2 = handler.obtainMessage();
-				message_2.obj ="客户端已断开:"+socket.getInetAddress().getportAddress();
+				message_2.obj ="客户端已断开:"+socket.getInetAddress().getHostAddress();
 				handler.sendMessage(message_2);
 				}catch (IOException e) {}}
 			} catch (IOException e){}
