@@ -43,11 +43,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 
-@DesignerComponent(version = SocketUtil.VERSION,
+/*@DesignerComponent(version = SocketUtil.VERSION,
     description = "made in fan hao jie \n QQ:535607581",
     category = ComponentCategory.EXTENSION,
     nonVisible = true,
-    iconName = "images/extension.png")
+    iconName = "images/extension.png")*/
 
 @SimpleObject(external = true)
 
