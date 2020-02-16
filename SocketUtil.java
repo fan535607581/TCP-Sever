@@ -152,15 +152,14 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 		{
                     Socket socket = null;
                     try {
-                        socket = serverSocket.accept(); 
-			con=0;
-                  	new ServerThread(socket).start();
-			    
+                        socket = serverSocket.accept();     
                         Message message_2 = handler.obtainMessage();
                         message_2.obj = "客户端连接："+socket.getInetAddress().getHostAddress();
                         handler.sendMessage(message_2);
                    	 } 
 		    catch (IOException e) {}
+                    con=0;
+                    new ServerThread(socket).start();
                 }
             }
         };
