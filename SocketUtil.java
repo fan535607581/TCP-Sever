@@ -205,7 +205,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 				handler.sendMessage(message_2);
 				}catch (IOException e) {}}
 			} catch (IOException e){}
-			if(con == 1){ou = socket.getOutputStream(); try{ou.write(bb , 1 , k);ou.flush();}catch (IOException e){} con=0;}
+			if(con == 1){try{ou = socket.getOutputStream();ou.write(bb , 1 , k);ou.flush();}catch (IOException e){} con=0;}
                 }
             }
 	}
