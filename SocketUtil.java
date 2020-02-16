@@ -194,7 +194,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 				message_2.obj = b[j]&0xff;
 				handler.sendMessage(message_2);
 				}
-				ou = socket.getOutputStream();
+				//ou = socket.getOutputStream();
 			}
 			if(con == 2){
 				try{
@@ -205,7 +205,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 				handler.sendMessage(message_2);
 				}catch (IOException e) {}}
 			} catch (IOException e){}
-			if(con == 1){ try{ou.write(bb , 1 , k);ou.flush();}catch (IOException e){} con=0;}
+			if(con == 1){ou = socket.getOutputStream(); try{ou.write(bb , 1 , k);ou.flush();}catch (IOException e){} con=0;}
                 }
             }
 	}
