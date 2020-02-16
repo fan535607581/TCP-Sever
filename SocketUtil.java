@@ -176,6 +176,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 	
 	class ServerThread extends Thread//接收数据的进程
 	{
+            int k = 0;
 	    Socket socket; 
 	    Message message_2;
 	    public ServerThread(Socket socket){this.socket = socket; }	
@@ -195,6 +196,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 				message_2.obj = b[j]&0xff;
 				handler.sendMessage(message_2);
 				}
+				k=1;
 				//ou = socket.getOutputStream();
 			}
 			if(con == 2){
@@ -206,7 +208,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 				handler.sendMessage(message_2);
 				}catch (IOException e) {}}
 			} catch (IOException e){}
-			if(con == 1){new ServerThread2(socket).start(); con=0;}
+			if(con == 1)if(k == 1){new ServerThread2(socket).start(); con=0;k=0;}
                 }
             }
 	}
