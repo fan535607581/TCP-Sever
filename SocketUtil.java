@@ -168,9 +168,10 @@ public class SocketUtil extends AndroidNonvisibleComponent {
  }
 	class ServerThread2 extends Thread//输出回复信息的进程
 	{ 
-	    public ServerThread2(){}	
+	    Socket socket;
+	    public ServerThread2(Socket socket){this.socket = socket; }	
 	    @Override
-	    public void run(){ try{ou.write(bb , 1 , k);ou.flush();}catch (IOException e){} }
+	    public void run(){ try{ou = socket.getOutputStream();ou.write(bb , 1 , k);ou.flush();}catch (IOException e){} }
 	}
 	
 	class ServerThread extends Thread//接收数据的进程
@@ -205,7 +206,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 				handler.sendMessage(message_2);
 				}catch (IOException e) {}}
 			} catch (IOException e){}
-			if(con == 1){try{ou = socket.getOutputStream();ou.write(bb , 1 , k);ou.flush();}catch (IOException e){} con=0;}
+			if(con == 1){try{new ServerThread2(socket).start(); con=0;}
                 }
             }
 	}
