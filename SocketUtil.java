@@ -44,7 +44,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 @DesignerComponent(version = SocketUtil.VERSION,
-    description = "made in fan hao jie \n QQ:535607581",
+    description = "made in fan hao jie",
     category = ComponentCategory.EXTENSION,
     nonVisible = true,
     iconName = "images/extension.png")
