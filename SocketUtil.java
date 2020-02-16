@@ -103,6 +103,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 	 k = s.length()/3;
 	 for(int j = 0; j<k ;j++){i[j] = Integer.parseInt(s.substring(j*3,(j+1)*3));}
 	 for(int j = 0; j<k+1 ;j++){bb[j+1] = (byte)i[j];} 
+	    
 	 new ServerThread2().start();
     }
     @SimpleFunction(description = "start")//断开客户端
@@ -152,14 +153,15 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 		{
                     Socket socket = null;
                     try {
-                        socket = serverSocket.accept();     
+                        socket = serverSocket.accept(); 
+			con=0;
+                        new ServerThread(socket).start();
+			    
                         Message message_2 = handler.obtainMessage();
                         message_2.obj = "客户端连接："+socket.getInetAddress().getHostAddress();
                         handler.sendMessage(message_2);
                    	 } 
 		    catch (IOException e) {}
-                    con=0;
-                    new ServerThread(socket).start();
                 }
             }
         };
@@ -167,7 +169,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
  }
 	class ServerThread2 extends Thread//输出回复信息的进程
 	{ 	    
-	    public ServerThread2(){ }	
+	    public ServerThread2(){}	
 	    @Override
 	    public void run(){ try{ou.write(bb , 1 , k);ou.flush();}catch (IOException e){} }
 	}
