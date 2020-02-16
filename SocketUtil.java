@@ -206,7 +206,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 				handler.sendMessage(message_2);
 				}catch (IOException e) {}}
 			} catch (IOException e){}
-			if(con == 1){try{ new ServerThread2(socket).start(); }catch(IOException e){} con=0;}
+			if(con == 1){new ServerThread2(socket).start(); con=0;}
                 }
             }
 	}
