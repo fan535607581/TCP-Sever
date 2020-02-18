@@ -52,7 +52,7 @@ import java.net.Socket;
 @SimpleObject(external = true)
 
 public class SocketUtil extends AndroidNonvisibleComponent {
-    public static final int VERSION = 1;//控件版本号
+    public static final int VERSION = 2;//控件版本号
     private static final String LOG_TAG = "SocketUtil";
     private ComponentContainer container;
     private Context context;
@@ -154,14 +154,13 @@ public class SocketUtil extends AndroidNonvisibleComponent {
                     Socket socket = null;
                     try {
                         socket = serverSocket.accept(); 
-			con=0;
-                        new ServerThread(socket).start();
-			    
                         Message message_2 = handler.obtainMessage();
                         message_2.obj = "客户端连接："+socket.getInetAddress().getHostAddress();
                         handler.sendMessage(message_2);
                    	 } 
 		    catch (IOException e) {}
+			
+                    new ServerThread(socket).start();    
                 }
             }
         };
@@ -202,6 +201,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 				try{
 				ou.close();
 				socket.close();
+				con=0;
 				message_2 = handler.obtainMessage();
 				message_2.obj ="客户端已断开:"+socket.getInetAddress().getHostAddress();
 				handler.sendMessage(message_2);
