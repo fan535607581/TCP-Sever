@@ -104,7 +104,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 	 for(int j = 0; j<k ;j++){i[j] = Integer.parseInt(s.substring(j*3,(j+1)*3));}
 	 for(int j = 0; j<k+1 ;j++){bb[j+1] = (byte)i[j];} 
 	    
-	 new ServerThread2().start();
+	 new ServerThread2(bb).start();
     }
     @SimpleFunction(description = "start")//断开客户端
     public void Clientclose(){con = 2;}
@@ -168,8 +168,9 @@ public class SocketUtil extends AndroidNonvisibleComponent {
         thread.start();
  }
 	class ServerThread2 extends Thread//输出回复信息的进程
-	{ 	    
-	    public ServerThread2(){}	
+	{ 
+	    byte[] bb = new byte[1000];
+	    public ServerThread2(byte[] bb){this.bb = bb;}	
 	    @Override
 	    public void run(){ try{ou.write(bb , 1 , k);ou.flush();}catch (IOException e){} }
 	}
