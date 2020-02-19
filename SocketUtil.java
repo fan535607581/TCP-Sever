@@ -62,12 +62,9 @@ public class SocketUtil extends AndroidNonvisibleComponent {
     String ip;//系统返回IP地址
     int port;//系统返回端口
     int con = 0;//控制信号
-    byte[] bb = new byte[1000];//回复数据
     int DK = 0;//外部设置的端口
     int k = 0;//回复数据的长度
-    int[] i = new int[1000];//回复原始数据
-	    
-		
+    	
     public Handler handler = new Handler()
     {
         @Override
@@ -100,6 +97,9 @@ public class SocketUtil extends AndroidNonvisibleComponent {
     @SimpleFunction(description = "start")//软件向控件写回复信息
     public void sendMessage(String s)
     {
+	 int[] i = new int[1000];//回复原始数据
+	 byte[] bb = new byte[1000];//回复数据
+   
 	 k = s.length()/3;
 	 for(int j = 0; j<k ;j++){i[j] = Integer.parseInt(s.substring(j*3,(j+1)*3));}
 	 for(int j = 0; j<k+1 ;j++){bb[j+1] = (byte)i[j];} 
@@ -114,10 +114,13 @@ public class SocketUtil extends AndroidNonvisibleComponent {
     {
 	 Message message_2;
 	 try{
+	    if(serverSocket != null)
+	    {
 	    serverSocket.close();
 	    message_2 = handler.obtainMessage();
 	    message_2.obj = "服务器已关闭";
 	    handler.sendMessage(message_2);
+	    }
 	 }catch (IOException e) 
 	    {
 	    message_2 = handler.obtainMessage();
