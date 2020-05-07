@@ -202,9 +202,9 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 					mm = b[j]&0xff;
 					SC = SC + str1.charAt(mm/16)+str1.charAt(mm%16);
 				}
-				message_2 = myHandler.obtainMessage();
+				message_2 = handler.obtainMessage();
 				message_2.obj = SC ;
-				myHandler.sendMessage(message_2);
+				handler.sendMessage(message_2);
 				ou = socket.getOutputStream();
 			}
 			
