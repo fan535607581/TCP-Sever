@@ -190,17 +190,24 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 		{	
 		    try {
                 	int msy = 0;  byte[] b = new byte[255];
+			int mm =0;
+			String SC = "";//回复命令
+			String str1 = "0123456789ABCDEF";//十六进制字符串表
+			    
 			msy = socket.getInputStream().read(b);
 			if( msy >= 0)	
 			{ 
 			for(int j = 0; j<(b[5]+6) ; j++)
 				{
-				message_2 = handler.obtainMessage();
-				message_2.obj = b[j]&0xff;
-				handler.sendMessage(message_2);
+					mm = b[j]&0xff;
+					SC = SC + str1.charAt(mm/16)+str1.charAt(mm%16);
 				}
+				message_2 = myHandler.obtainMessage();
+				message_2.obj = SC ;
+				myHandler.sendMessage(message_2);
 				ou = socket.getOutputStream();
 			}
+			
 			if(con == 2){
 				try{
 				ou.close();
