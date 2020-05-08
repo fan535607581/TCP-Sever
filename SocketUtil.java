@@ -190,7 +190,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 		{	
 		    try {
                 	int msy = 0;  byte[] b = new byte[255];
-			//int mm =0;
+			int mm =0;
 			String SC = "";//回复命令
 			//String str1 = "0123456789ABCDEF";//十六进制字符串表
 			    
@@ -199,9 +199,9 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 			{ 
 			for(int j = 0; j<(b[5]+6) ; j++)
 				{
-					//mm = b[j]&0xff;
+					mm = b[j]&0xff;
 					//SC = SC + str1.charAt(mm/16)+str1.charAt(mm%16);
-					SC = SC + b[j]&0xff + ",";
+					SC = SC + mm + ",";
 				}
 				message_2 = handler.obtainMessage();
 				message_2.obj = SC ;
