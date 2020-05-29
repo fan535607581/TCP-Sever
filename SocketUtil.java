@@ -42,6 +42,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import javax.net.*;
+import java.util.*;
 
 @DesignerComponent(version = SocketUtil.VERSION,
     description = "made in fan hao jie",
@@ -51,7 +53,8 @@ import java.net.Socket;
 
 @SimpleObject(external = true)
 
-public class SocketUtil extends AndroidNonvisibleComponent {
+public class SocketUtil extends AndroidNonvisibleComponent 
+{
     public static final int VERSION = 2;//控件版本号
     private static final String LOG_TAG = "SocketUtil";
     private ComponentContainer container;
@@ -64,6 +67,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
     int con = 0;//控制信号
     int DK = 0;//外部设置的端口
     int k = 0;//回复数据的长度
+	private ArrayList<Socket> clients = new ArrayList<Socket>();
     	
     public Handler handler = new Handler()
     {
@@ -78,7 +82,8 @@ public class SocketUtil extends AndroidNonvisibleComponent {
         context = (Context) container.$context();
     }
 	
-    public void getLocalIpAddress(ServerSocket serverSocket){
+    public void getLocalIpAddress(ServerSocket serverSocket)
+	{
       try {
          for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();){
                 NetworkInterface intf = en.nextElement();
@@ -92,22 +97,51 @@ public class SocketUtil extends AndroidNonvisibleComponent {
                 }
             }
       }catch (SocketException e) {e.printStackTrace();}
-   }
-    
+	}
+
+    @SimpleFunction(description="start")//获取客户端列表
+	public ArrayList<String> IPList()
+	{
+		ArrayList<String> client = new ArrayList<String>();
+		for (Socket socket : clients)
+		try{socket.sendUrgentData(0xFF);}
+			catch(Exception ex)
+				{
+				clients.remove(socket);
+				try{
+					if(ou != null)ou.close();
+					socket.close();
+					}catch (IOException e) {}	
+				}
+		for (Socket socket : clients) client.add(socket.getRemoteSocketAddress()+"");
+		return	client;
+	}
+
     @SimpleFunction(description = "start")//软件向控件写回复信息
-    public void sendMessage(String s)
+    public void sendMessage(String s , int port)
     {
 	 int[] i = new int[1000];//回复原始数据
 	 byte[] bb = new byte[1000];//回复数据
-   
+
 	 k = s.length()/3;
 	 for(int j = 0; j<k ;j++){i[j] = Integer.parseInt(s.substring(j*3,(j+1)*3));}
 	 for(int j = 0; j<k+1 ;j++){bb[j+1] = (byte)i[j];} 
-	    
-	 new ServerThread2(bb).start();
+	 for (Socket socket : clients) if(port== socket.getPort()) new ServerThread2(bb,socket).start();	
     }
+
     @SimpleFunction(description = "start")//断开客户端
-    public void Clientclose(){con = 2;}
+    public void Clientclose()
+	{
+		Message message_2;
+		for (Socket socket : clients)
+		try{
+			if(ou != null)ou.close();
+			socket.close();
+			message_2 = handler.obtainMessage();
+			message_2.obj ="客户端已断开:"+socket.getInetAddress().getHostAddress();
+			handler.sendMessage(message_2);
+			}catch (IOException e) {}
+	}
 	
     @SimpleFunction(description = "start")//关闭服务器
     public void Serverclose()
@@ -121,7 +155,7 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 	    message_2.obj = "服务器已关闭";
 	    handler.sendMessage(message_2);
 	    }
-	 }catch (IOException e) 
+		}catch (IOException e) 
 	    {
 	    message_2 = handler.obtainMessage();
 	    message_2.obj = "服务器关闭失败";
@@ -134,17 +168,18 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 	
     @SimpleFunction(description = "start")//打开通信端口
     public void receiveData(int PORT){
-	DK = PORT;
+		DK = PORT;
         Thread thread = new Thread(){//等待客户端连接的进程
-            @Override
-            public void run() {
-                super.run();
+        @Override
+        public void run() {
+        super.run();
 		try {    
 			serverSocket = new ServerSocket(DK);
 			getLocalIpAddress(serverSocket);
 			Message message_1 = handler.obtainMessage();
 			message_1.obj = "服务器已开启:" + ip + ":" + port;
 			handler.sendMessage(message_1);
+			//new ServerThread3(DK).start();
 		}catch (IOException e)
 		{
 			Message message_1 = handler.obtainMessage();
@@ -153,29 +188,59 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 		}
 
                 while (true)
-		{
+				{
                     Socket socket = null;
                     try {
                         socket = serverSocket.accept();
-			con=0;
+						clients.add(socket);
                         new ServerThread(socket).start();  
 			    
                         Message message_2 = handler.obtainMessage();
                         message_2.obj = "客户端连接："+socket.getInetAddress().getHostAddress();
                         handler.sendMessage(message_2);
                    	 } 
-		    catch (IOException e) {} 
+					catch (IOException e) {} 
                 }
             }
         };
         thread.start();
  }
+	class ServerThread3 extends Thread//清理客户端远程断开
+	{
+		int b = 0;
+		Message message_2;
+		public ServerThread3(int b){this.b = b;}
+		@Override
+	    public void run()
+		{
+			while (true)
+			{
+				for (Socket socket : clients)
+					try{socket.sendUrgentData(0xFF);}
+					catch(Exception ex)
+					{
+						try{
+						if(ou != null)ou.close();
+						socket.close();
+						message_2 = handler.obtainMessage();
+						message_2.obj ="远程断开:"+socket.getInetAddress().getHostAddress();
+						handler.sendMessage(message_2);
+						}catch (IOException e) {}	
+					}
+			}
+		}
+	}
+
 	class ServerThread2 extends Thread//输出回复信息的进程
 	{ 
+		Socket socket = null;
 	    byte[] bb = new byte[1000];
-	    public ServerThread2(byte[] bb){this.bb = bb;}	
+	    public ServerThread2(byte[] bb,Socket socket){this.bb = bb;this.socket = socket;}	
 	    @Override
-	    public void run(){ try{ou.write(bb , 1 , k);ou.flush();}catch (IOException e){} }
+	    public void run()
+			{
+			try{ou = socket.getOutputStream();ou.write(bb , 1 , k);ou.flush();}catch (IOException e){} 
+			}
 	}
 	
 	class ServerThread extends Thread//接收数据的进程
@@ -187,35 +252,19 @@ public class SocketUtil extends AndroidNonvisibleComponent {
 	    public void run()
 	    {
                 while(socket != null)
-		{	
-		    try {
-                	int msy = 0;  byte[] b = new byte[255];
-			int mm =0;    String SC = "";//回复命令   
-			msy = socket.getInputStream().read(b);
-			if( msy >= 0)	
-			{ 
-			for(int j = 0; j<(b[5]+6) ; j++)
-				{
-					mm = b[j]&0xff;
-					SC = SC + mm + ",";
-				}
-				message_2 = handler.obtainMessage();
-				message_2.obj = SC ;
-				handler.sendMessage(message_2);
-				ou = socket.getOutputStream();
-			}
-			
-			if(con == 2){
-				try{
-				ou.close();
-				socket.close();
-				con=0;
-				message_2 = handler.obtainMessage();
-				message_2.obj ="客户端已断开:"+socket.getInetAddress().getHostAddress();
-				handler.sendMessage(message_2);
-				}catch (IOException e) {}}
-			} catch (IOException e){}
+				{	
+				try {
+					int msy = 0;  byte[] b = new byte[255];
+					int mm =0;    String SC = "";//回复命令   
+					msy = socket.getInputStream().read(b);
+					if( msy >= 0)	
+					{ 
+						for(int j = 0; j<(b[5]+6) ; j++){mm = b[j]&0xff;SC = SC + mm + ",";}
+						message_2 = handler.obtainMessage();
+						message_2.obj = SC  + "," + socket.getPort();
+						handler.sendMessage(message_2);
+					}} catch (IOException e){}
                 }
-            }
+           }
 	}
 }
